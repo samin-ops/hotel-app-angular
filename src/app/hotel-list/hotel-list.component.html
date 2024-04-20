@@ -1,0 +1,50 @@
+
+<div class="container">
+  <h2 *ngIf="hotels && hotels.length > 0 ">{{title | uppercase}}</h2>
+  <button class="btn btn-primary" (click)= "toggleIsNewbadge()">
+    <span class="material-icons d-flex">
+      {{showbadge ? 'visibility_off':'visibility'}}
+    </span>
+    <span class="ml-3">
+    {{ showbadge ? 'Cacher': 'Afficher'}} Nouveau
+  </span>
+  </button>
+  <hr>
+  <div class="my-2">
+   <div class="row">
+     <div class="col-md-4">
+     <span>filter actuel: </span>
+     <span>{{hotelFilter}}</span>
+    </div>
+    <div class="col-md-8 form-group">
+      <input type ="text" placeholder="Recherche Hotel" class="form-control" [(ngModel)]="hotelFilter"/>
+    </div>
+   </div>
+
+  </div>
+  <div class="alert alert-primary" *ngIf="!!receiveRating">
+    {{receiveRating}}
+  </div>
+  <div class ="row row-cols-1 row-cols-md-3">
+    <div class="col mb-4" *ngFor="let hotel of filteredHotels">
+      <div class="card">
+        <img [src]="hotel.imageUrl" [title]="hotel.hotelName" class="card-img-top" alt="hotel.hotelName">
+        <div class="card-body">
+            <h5 class="card-title">{{ hotel.hotelName | titlecase }}</h5>
+            <p class="card-text">{{ hotel.description }}
+            </p>
+            <p class="cart-text">
+              {{hotel.price | currency: "EUR":"symbol":"1.2-2":"fr" }}/ Jour. <!-- | replaceComma-->
+            </p>
+            <app-star-rating [rating]="hotel.rating" (starRatingClicked)="receivedRatingClicked"></app-star-rating> <!--appel du component fils dans le parent-->
+            <span class="badge bg-info" *ngIf="showbadge">
+              Nouveau
+            </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
